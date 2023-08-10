@@ -33,7 +33,7 @@ const logoUrl = computed(() => {
                         cras. Fames ac turpis egestas integer. Placerat in egestas erat...</p>
                     <router-link to="/user/login">
                         <Button label="Get Started"
-                        class="p-button-rounded text-xl border-none mt-5 bg-500 font-normal text-white line-height-3 px-3"></Button>
+                        class="p-button-rounded text-xl border-none mt-5 bg-500 font-normal text-white line-height-3 px-3" style="width: 200px;"></Button>
                     </router-link>
                 </div>
                 <div class="flex justify-content-center md:justify-content-end">

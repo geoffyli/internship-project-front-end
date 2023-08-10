@@ -3,11 +3,33 @@
 @port=9093
 @contentType=application/json
 
-@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJhZG1pbklkXCI6MX0iLCJpYXQiOjE2MDE4NjM2ODUsImV4cCI6MTYwMjQ2ODQ4NX0.WuMsNRhC11EG4wRrDkZmZf7fyHQ4ki5HPwcryBiuI08
-##1205130634395324417
+@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1YzQwYTFkMi1mNmZmLTQ4MTEtOTI1Yy1iMDk5YzJjMzIwMWEiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkxNDgxMjgxLCJleHAiOjE2OTE0ODMwODF9.ARJo6Oh9n6N8CSY67LYDgHwh3bKCixeldHOUZ3Yhlag
+
+############################ Tested ############################
+### Log in
+POST  http://{{hostname}}:{{port}}/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "adminName":"admin",
+    "password":"123456"
+}
 
 
-# Tested
+
+### Signup
+POST  http://{{hostname}}:{{port}}/signup HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "adminName":"user2",
+    "password":"1234"
+}
+
+### Logout
+GET  http://{{hostname}}:{{port}}/logout HTTP/1.1
+Authorization: {{Authorization}}
+
 
 
 
@@ -36,16 +58,6 @@
 ####TEST#####
 POST http://localhost:9093/device/clientAction HTTP/1.1
 Content-Type: {{contentType}}
-
-
-####登录#######
-POST  http://{{hostname}}:{{port}}/login HTTP/1.1
-Content-Type: {{contentType}}
-
-{
-    "loginName":"admin",
-    "password":"admin"
-}
 
 
 ####修改设备状态########

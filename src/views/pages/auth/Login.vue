@@ -2,10 +2,91 @@
 import { useLayout } from '@/layout/composables/layout';
 import { ref, computed } from 'vue';
 import AppConfig from '@/layout/AppConfig.vue';
+import Axios from 'axios'; // Import Axios
+import { loginUrl } from '@/api/APIUrls';
+import router from '@/router';
 
 // const { layoutConfig } = useLayout();
-const email = ref('');
+const username = ref('');
 const password = ref('');
+const showUsernameWarning = ref(false);
+const showPasswordWarning = ref(false);
+const usernameInput = ref(null);
+const passwordInput = ref(null);
+
+let fisrtUsernameInput = true;
+let fisrtPasswordInput = true;
+let usernameValid = false;
+let passwordValid = false;
+
+async function handleLogin() {
+    if (!(usernameValid && passwordValid)) {
+        if (!usernameValid) {
+            showUsernameWarning.value = true;
+        }
+        if (!passwordValid) {
+            showPasswordWarning.value = true;
+        }
+        // Stop further execution if username or password is empty
+        return;
+    }
+    // Make the HTTP request using Axios
+    try {
+        const response = await Axios.post(loginUrl, {
+            'adminName': username.value,
+            'password': password.value,
+        });
+
+        // Handle the response as needed
+        if (response.data.loginSuccess === true) {
+            // Store the token in the local storage
+            localStorage.setItem('token', response.data.token);
+            // Redirect to the dashboard by JS
+            router.push({ name: 'dashboard' });
+        } else {
+            // Redirect to the error page
+            router.push({ name: 'accessdenied' });
+        }
+    } catch (error) {
+        // Handle the error
+        console.error(error);
+    }
+}
+
+function updateUsernameValidation() {
+    if (!fisrtUsernameInput) {
+        if (username.value.trim()) {
+
+            showUsernameWarning.value = false;
+            usernameValid = true
+        } else {
+            showUsernameWarning.value = true;
+            usernameValid = false
+        }
+    } else {
+        fisrtUsernameInput = false;
+        usernameValid = true
+    }
+
+}
+
+function updatePasswordValidation() {
+    if (!fisrtPasswordInput) {
+        if (password.value.trim()) {
+
+            showPasswordWarning.value = false;
+            passwordValid = true
+        } else {
+            showPasswordWarning.value = true;
+            passwordValid = false
+        }
+    } else {
+        fisrtPasswordInput = false;
+        passwordValid = true
+    }
+}
+
+
 // const checked = ref(false);
 
 // const logoUrl = computed(() => {
@@ -25,14 +106,21 @@ const password = ref('');
                     </div>
 
                     <div>
-                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                        <InputText id="email1" type="text" placeholder="Email address" class="w-full md:w-30rem mb-5"
-                            style="padding: 1rem" v-model="email" />
+                        <label for="username" class="block text-900 text-xl font-medium mb-2">Username</label>
+                        <InputText ref="usernameInput" id="username" type="text" placeholder="Username"
+                            class="w-full md:w-30rem mb-0" style="padding: 1rem" v-model="username"
+                            @input="updateUsernameValidation" />
+                        <div class="text-red-400 text-right" v-if="showUsernameWarning">
+                            Username cannot be empty.
+                        </div>
 
-                        <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                        <Password id="password1" v-model="password" placeholder="Password" :toggfleMask="true"
-                            class="w-full mb-3" inputClass="w-full" :inputStyle="{ padding: '1rem' }"></Password>
-
+                        <label for="password" class="block text-900 font-medium text-xl mb-2 mt-2">Password</label>
+                        <Password ref="passwordInput" id="password" v-model="password" placeholder="Password" toggleMask
+                            :feedback="false" class="w-full mb-0" inputClass="w-full" :inputStyle="{ padding: '1rem' }"
+                            @input="updatePasswordValidation"></Password>
+                        <div class="text-red-400 text-right" v-if="showPasswordWarning">
+                            Password cannot be empty.
+                        </div>
                         <!-- <div class="flex align-items-center justify-content-between mb-5 gap-5">
                             <div class="flex align-items-center">
                                 <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
@@ -40,9 +128,14 @@ const password = ref('');
                             </div>
                             <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
                         </div> -->
-                        <Button label="Sign In" class="w-full p-3 text-xl"></Button>
-                        <br />
-                        <br />
+                        <Button label="Submit" id="login" class="w-full p-3 text-xl mt-5" @click="handleLogin"
+                            @keydown.enter="handleLogin"></Button>
+
+                        <div class="col-12 mt-4 text-center">
+                            <div class="text-600 font-medium">Don't have an account?</div>
+                            <i class="pi pi-fw pi-arrow-right text-blue-500 mr-2 mt-3" style="vertical-align: center"></i>
+                            <router-link to="/user/signup" class="text-blue-500">Sign up an account</router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,4 +153,5 @@ const password = ref('');
 .pi-eye-slash {
     transform: scale(1.6);
     margin-right: 1rem;
-}</style>
+}
+</style>

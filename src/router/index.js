@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
+import { isTokenExpired } from '../utils/jwtUtil'
 
 
 const router = createRouter({
@@ -9,17 +10,45 @@ const router = createRouter({
     {
       path: '/',
       name: 'base',
-      redirect: { name: 'welcome'}
+      redirect: { name: 'welcome' }
     },
     {
       path: '/main',
       component: AppLayout,
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
           path: 'dashboard',
           name: 'dashboard',
           component: () => import('@/views/Dashboard.vue'),
-      },
+        },
+        {
+          path: 'devices',
+          name: 'devices',
+          component: () => import('@/views/Devices.vue'),
+        },
+        {
+          path: 'alarm',
+          name: 'alarm',
+          component: () => import('@/views/Alarm.vue'),
+        },
+        {
+          path: 'quota',
+          name: 'quota',
+        component: () => import('@/views/Quota.vue'),
+        },
+        {
+          path: 'instruction',
+          name: 'instruction',
+        component: () => import('@/views/Instruction.vue'),
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+        component: () => import('@/views/Settings.vue'),
+        },
       ]
     },
     {
@@ -46,8 +75,38 @@ const router = createRouter({
       path: '/welcome',
       name: 'welcome',
       component: () => import('@/views/pages/Welcome.vue')
+    },
+    // 404
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notfound',
+      component: () => import('@/views/pages/NotFound.vue')
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const token = localStorage.getItem('token')
+    if (token == null) {
+      next({
+        path: '/user/login',
+        params: { nextUrl: to.fullPath }
+      })
+    } else {
+      if (isTokenExpired(token)) {
+        next({
+          path: '/user/login',
+          params: { nextUrl: to.fullPath }
+        })
+      } else {
+        next()
+      }
+    }
+  }
+  else {
+    next()
+  }
 })
 
 export default router

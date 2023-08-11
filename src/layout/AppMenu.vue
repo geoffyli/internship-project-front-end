@@ -11,9 +11,9 @@ const model = ref([
     {
         label: 'Management',
         items: [
-            { label: 'Device Management', icon: 'pi pi-fw pi-car', to: '/management/device_board' },
-            { label: 'Quota Management', icon: 'pi pi-fw pi-list', to: '/uikit/input' },
-            { label: 'Alarm Management', icon: 'pi pi-fw pi-shield', to: '/uikit/floatlabel' },
+            { label: 'Device Management', icon: 'pi pi-fw pi-car', to: '/main/devices' },
+            { label: 'Quota Management', icon: 'pi pi-fw pi-list', to: '/main/quota' },
+            { label: 'Alarm Management', icon: 'pi pi-fw pi-shield', to: '/main/alarm' },
             // { label: 'Invalid State', icon: 'pi pi-fw pi-exclamation-circle', to: '/uikit/invalidstate' },
             // { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/uikit/button', class: 'rotated-icon' },
             // { label: 'Table', icon: 'pi pi-fw pi-table', to: '/uikit/table' },
@@ -30,19 +30,20 @@ const model = ref([
         ]
     },
     {
+        label: 'Profile & Settings',
+        items: [
+            { label: 'Profile', icon: 'pi pi-fw pi-user', to: '/utilities/icons' },
+            { label: 'Settings', icon: 'pi pi-fw pi-cog', to: '/user/logout' }
+        ]
+    },
+    {
         label: 'Instructions & About',
         items: [
             { label: 'Instructions', icon: 'pi pi-fw pi-book', to: '/blocks', badge: 'NEW' },
             { label: 'About', icon: 'pi pi-fw pi-at', url: 'https://www.primefaces.org/primeblocks-vue', target: '_blank' }
         ]
     },
-    {
-        label: 'User',
-        items: [
-            { label: 'Profile', icon: 'pi pi-fw pi-user', to: '/utilities/icons' },
-            { label: 'Sign Out', icon: 'pi pi-fw pi-sign-out', url: 'https://www.primefaces.org/primeflex/', target: '_blank' }
-        ]
-    },
+    
     // {
     //     label: 'Pages',
     //     icon: 'pi pi-fw pi-briefcase',

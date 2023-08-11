@@ -13,7 +13,7 @@ import AppConfig from '@/layout/AppConfig.vue';
                     <span class="text-900 font-bold text-3xl">404</span>
                     <h1 class="text-900 font-bold text-3xl lg:text-5xl mb-2">Not Found</h1>
                     <div class="text-600 mb-5">Requested resource is not available.</div>
-                    <router-link to="/" class="w-full flex align-items-center py-5 border-300 border-bottom-1">
+                    <router-link to="/main/dashboard" class="w-full flex align-items-center py-5 border-300 border-bottom-1">
                         <span class="flex justify-content-center align-items-center bg-cyan-400 border-round"
                             style="height: 3.5rem; width: 3.5rem">
                             <i class="text-50 pi pi-fw pi-table text-2xl"></i>

@@ -27,7 +27,7 @@ Content-Type: {{contentType}}
 }
 
 ### Logout
-GET  http://{{hostname}}:{{port}}/logout HTTP/1.1
+POST  http://{{hostname}}:{{port}}/logout HTTP/1.1
 Authorization: {{Authorization}}
 
 

@@ -6,6 +6,7 @@ const baseUrl = 'http://localhost:9093';
 // Define individual API endpoints
 const loginUrl = `${baseUrl}/login`;
 const signupUrl = `${baseUrl}/signup`;
+const logoutUrl = `${baseUrl}/logout`;
 // const getUserUrl = `${baseUrl}/users`;
 // const postDataUrl = `${baseUrl}/data`;
 
@@ -13,7 +14,8 @@ const signupUrl = `${baseUrl}/signup`;
 export {
   baseUrl,
   loginUrl,
-  signupUrl
+  signupUrl,
+  logoutUrl,
 //   getUserUrl,
 //   postDataUrl,
   // Add more URLs here as needed

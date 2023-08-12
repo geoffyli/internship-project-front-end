@@ -1,4 +1,5 @@
-// apiUrls.js
+// CORS Domain
+const corsDomain = 'http://localhost:5173'; 
 
 // Define your base API URL if you have one
 const baseUrl = 'http://localhost:9093';
@@ -7,6 +8,9 @@ const baseUrl = 'http://localhost:9093';
 const loginUrl = `${baseUrl}/login`;
 const signupUrl = `${baseUrl}/signup`;
 const logoutUrl = `${baseUrl}/logout`;
+
+const deviceStatusUrl = `${baseUrl}/report/statusCollect`;
+const changeDeviceStatusUrl = `${baseUrl}/device/status`
 // const getUserUrl = `${baseUrl}/users`;
 // const postDataUrl = `${baseUrl}/data`;
 
@@ -16,6 +20,10 @@ export {
   loginUrl,
   signupUrl,
   logoutUrl,
+  deviceStatusUrl,
+  changeDeviceStatusUrl,
+  corsDomain
+
 //   getUserUrl,
 //   postDataUrl,
   // Add more URLs here as needed

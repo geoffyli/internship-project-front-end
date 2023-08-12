@@ -3,7 +3,7 @@
 @port=9093
 @contentType=application/json
 
-@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1YzQwYTFkMi1mNmZmLTQ4MTEtOTI1Yy1iMDk5YzJjMzIwMWEiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkxNDgxMjgxLCJleHAiOjE2OTE0ODMwODF9.ARJo6Oh9n6N8CSY67LYDgHwh3bKCixeldHOUZ3Yhlag
+@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhNmI0YzVjYy0xMTFmLTQzM2MtYTA3ZC03OWI3MTg3YmI4ZDkiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkxNzYxOTc0LCJleHAiOjE2OTE3NjM3NzR9.IvaBoDLlR6bZ6PHrgoNQJ3-i-AdTzrWlHwN0J_4no6c
 
 ############################ Tested ############################
 ### Log in
@@ -14,8 +14,6 @@ Content-Type: {{contentType}}
     "adminName":"admin",
     "password":"123456"
 }
-
-
 
 ### Signup
 POST  http://{{hostname}}:{{port}}/signup HTTP/1.1
@@ -30,10 +28,13 @@ Content-Type: {{contentType}}
 POST  http://{{hostname}}:{{port}}/logout HTTP/1.1
 Authorization: {{Authorization}}
 
+### Get Device Status
+GET http://{{hostname}}:{{port}}/report/statusCollect
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
 
 
-
-# Untested
+############################ Untested ############################
 
 
 
@@ -210,12 +211,6 @@ Content-Type: {{contentType}}
 
 #####通过指标查询设备列表########
 GET http://{{hostname}}:{{port}}/report/devices?quotaId=1&page=1&pageSize=10 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-######获取设备状态分布##########
-
-GET http://{{hostname}}:{{port}}/report/statusCollect
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 

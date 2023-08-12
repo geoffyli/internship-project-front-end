@@ -2,8 +2,16 @@
 import { onMounted, reactive, ref, watch } from 'vue';
 import ProductService from '@/service/ProductService';
 import { useLayout } from '@/layout/composables/layout';
+import axios from 'axios';
+import { deviceStatusUrl, changeDeviceStatusUrl } from '@/api/APIUrls';
 
 const { isDarkTheme } = useLayout();
+const { layoutConfig } = useLayout();
+let documentStyle = getComputedStyle(document.documentElement);
+let textColor = documentStyle.getPropertyValue('--text-color');
+let textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+let surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
 
 const products = ref(null);
 const lineData = reactive({
@@ -112,6 +120,56 @@ watch(
     },
     { immediate: true }
 );
+
+// Mine
+const pieData = ref(null);
+
+const setColorOptions = () => {
+    documentStyle = getComputedStyle(document.documentElement);
+    textColor = documentStyle.getPropertyValue('--text-color');
+    textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+};
+
+const setChart = () => {
+    let token = localStorage.getItem('token')
+    axios({
+        method: 'get',
+        url: deviceStatusUrl,
+        headers: {
+            Authorization: `${token}`
+        }
+    })
+        .then(response => {
+            // Output the received response content
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+
+    pieData.value = {
+        labels: ['A', 'B', 'C'],
+        datasets: [
+            {
+                data: [540, 325, 702],
+                backgroundColor: [documentStyle.getPropertyValue('--indigo-500'), documentStyle.getPropertyValue('--purple-500'), documentStyle.getPropertyValue('--teal-500')],
+                hoverBackgroundColor: [documentStyle.getPropertyValue('--indigo-400'), documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--teal-400')]
+            }
+        ]
+    };
+
+}
+
+watch(
+    layoutConfig.theme,
+    () => {
+        setColorOptions();
+        setChart();
+    },
+    { immediate: true }
+);
+
 </script>
 
 <template>
@@ -184,6 +242,13 @@ watch(
 
         <!-- The left column -->
         <div class="col-12 xl:col-6">
+            <!-- Pie chart -->
+            <div class="">
+                <div class="card flex flex-column align-items-center">
+                    <h5 class="text-left w-full">Device Status</h5>
+                    <Chart type="pie" :data="pieData" :options="pieOptions"></Chart>
+                </div>
+            </div>
             <div class="card">
                 <h5>Recent Sales</h5>
                 <DataTable :value="products" :rows="5" :paginator="true" responsiveLayout="scroll">

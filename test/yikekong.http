@@ -3,7 +3,7 @@
 @port=9093
 @contentType=application/json
 
-@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhNmI0YzVjYy0xMTFmLTQzM2MtYTA3ZC03OWI3MTg3YmI4ZDkiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkxNzYxOTc0LCJleHAiOjE2OTE3NjM3NzR9.IvaBoDLlR6bZ6PHrgoNQJ3-i-AdTzrWlHwN0J_4no6c
+@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJlN2UzOGE0YS1iN2RjLTQ5M2MtOWM3Zi01Nzg2YWQ3NmU5ZjYiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkyNDc1NTg1LCJleHAiOjE2OTI0NzczODV9.2ym-0KSKxtvCzOTFnYgGM42nVOdPP9LRJKdRdZmp6bs
 
 ############################ Tested ############################
 ### Log in
@@ -15,6 +15,7 @@ Content-Type: {{contentType}}
     "password":"123456"
 }
 
+
 ### Signup
 POST  http://{{hostname}}:{{port}}/signup HTTP/1.1
 Content-Type: {{contentType}}
@@ -24,15 +25,73 @@ Content-Type: {{contentType}}
     "password":"1234"
 }
 
+
 ### Logout
 POST  http://{{hostname}}:{{port}}/logout HTTP/1.1
 Authorization: {{Authorization}}
 
-### Get Device Status
+
+### Get device status statistics
 GET http://{{hostname}}:{{port}}/report/statusCollect
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 
+
+### Get device list
+GET http://{{hostname}}:{{port}}/device?page=2 HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
+
+
+### Get all quota info
+GET http://{{hostname}}:{{port}}/quota/numberQuota HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
+
+
+### Get alarm log
+GET http://{{hostname}}:{{port}}/alarm/log?start=2023-01-01 00:00:00&end=2023-12-31 00:00:00&page=1&pageSize=10 HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
+
+
+### Add Quota
+POST  http://{{hostname}}:{{port}}/quota HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
+
+{
+    "name":"温度",
+    "unit":"摄氏度",
+    "subject":"temperature",
+    "valueKey":"temp",
+    "valueType":"Double",
+    "snKey":"sn",
+    "webhook":"",
+    "referenceValue":"1-5"
+}
+
+
+### Delete Quota
+DELETE  http://{{hostname}}:{{port}}/quota/128 HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
+
+
+#################添加告警#########
+POST http://{{hostname}}:{{port}}/alarm HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
+
+{
+    "name":"温度临界",
+    "quotaId":1,
+    "operator":"=",
+    "threshold":12,
+    "level":2,
+    "cycle":10,
+    "webHook":""
+}
 
 ############################ Untested ############################
 
@@ -68,7 +127,7 @@ Content-Type: {{contentType}}
 
 {
     "sn":"123456",
-    "status":true
+    "status":false
 }
 
 ####设置设备标签############
@@ -81,24 +140,6 @@ Content-Type: {{contentType}}
 }
 
 
-
-
-
-####添加指标############
-POST  http://{{hostname}}:{{port}}/quota HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-{
-    "name":"温度",
-    "unit":"摄氏度",
-    "subject":"temperature",
-    "valueKey":"temp",
-    "valueType":"Double",
-    "snKey":"sn",
-    "webhook":"",
-    "referenceValue":"1-5"
-}
 
 #####修改指标###########
 PUT http://{{hostname}}:{{port}}/quota HTTP/1.1
@@ -119,31 +160,6 @@ Content-Type: {{contentType}}
     "referenceValue":"1"
 }
 
-##########删除指标#############
-DELETE  http://{{hostname}}:{{port}}/quota/128 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-#####获取数值指标###########
-GET http://{{hostname}}:{{port}}/quota/numberQuota HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-
-#################添加告警#########
-POST http://{{hostname}}:{{port}}/alarm HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-{
-    "name":"温度临界",
-    "quotaId":1,
-    "operator":"=",
-    "threshold":12,
-    "level":2,
-    "cycle":10,
-    "webHook":""
-}
 
 #####添加看板############
 POST http://{{hostname}}:{{port}}/board HTTP/1.1
@@ -187,22 +203,11 @@ GET http://{{hostname}}:{{port}}/device/deviceQuota?state=3 HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 
-####获取设备列表####
-
-GET http://{{hostname}}:{{port}}/device?tag=Mongo&state=0 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
 ############报警配置查询############
 GET http://{{hostname}}:{{port}}/alarm?page=1&pageSize=10 HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 
-#####报警日志###########
-
-GET http://{{hostname}}:{{port}}/alarm/log?start=2023-01-01 00:00:00&end=2023-12-31 00:00:00&page=1&pageSize=10 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
 
 ####获取告警top10#########
 GET http://{{hostname}}:{{port}}/report/top10Alarm/2020-09-01 00:00:00/2020-09-30 23:59:59 HTTP/1.1

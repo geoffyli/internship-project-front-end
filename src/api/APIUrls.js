@@ -8,9 +8,13 @@ const baseUrl = 'http://localhost:9093';
 const loginUrl = `${baseUrl}/login`;
 const signupUrl = `${baseUrl}/signup`;
 const logoutUrl = `${baseUrl}/logout`;
+const deviceUrl = `${baseUrl}/device`;
+const quotaUrl = `${baseUrl}/quota`;
+const alarmUrl = `${baseUrl}/alarm`;
 
 const deviceStatusUrl = `${baseUrl}/report/statusCollect`;
-const changeDeviceStatusUrl = `${baseUrl}/device/status`
+const changeDeviceStatusUrl = `${baseUrl}/device/status`;
+const alarmLogUrl = `${baseUrl}/alarm/log`;
 // const getUserUrl = `${baseUrl}/users`;
 // const postDataUrl = `${baseUrl}/data`;
 
@@ -20,10 +24,13 @@ export {
   loginUrl,
   signupUrl,
   logoutUrl,
+  deviceUrl,
   deviceStatusUrl,
   changeDeviceStatusUrl,
-  corsDomain
-
+  corsDomain,
+  quotaUrl,
+  alarmLogUrl,
+  alarmUrl
 //   getUserUrl,
 //   postDataUrl,
   // Add more URLs here as needed

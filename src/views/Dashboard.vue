@@ -132,6 +132,10 @@ const setColorOptions = () => {
 };
 
 const setChart = () => {
+    let deviceStatus = null
+    let normalNum = null
+    let offlineNum = null
+    let alarmNum = null
     let token = localStorage.getItem('token')
     axios({
         method: 'get',
@@ -142,22 +146,25 @@ const setChart = () => {
     })
         .then(response => {
             // Output the received response content
-            console.log(response.data);
+            deviceStatus = response.data
+            normalNum = deviceStatus[0]['value']
+            offlineNum = deviceStatus[1]['value']
+            alarmNum = deviceStatus[2]['value']
+            pieData.value = {
+                labels: ['Normal', 'Offline', 'Alarm'],
+                datasets: [
+                    {
+                        data: [normalNum, offlineNum, alarmNum],
+                        backgroundColor: [documentStyle.getPropertyValue('--indigo-500'), documentStyle.getPropertyValue('--purple-500'), documentStyle.getPropertyValue('--teal-500')],
+                        hoverBackgroundColor: [documentStyle.getPropertyValue('--indigo-400'), documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--teal-400')]
+                    }
+                ]
+            };
         })
         .catch(error => {
             console.log('Error:', error);
         });
 
-    pieData.value = {
-        labels: ['A', 'B', 'C'],
-        datasets: [
-            {
-                data: [540, 325, 702],
-                backgroundColor: [documentStyle.getPropertyValue('--indigo-500'), documentStyle.getPropertyValue('--purple-500'), documentStyle.getPropertyValue('--teal-500')],
-                hoverBackgroundColor: [documentStyle.getPropertyValue('--indigo-400'), documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--teal-400')]
-            }
-        ]
-    };
 
 }
 

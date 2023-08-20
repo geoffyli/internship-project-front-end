@@ -25,14 +25,24 @@ const router = createRouter({
           component: () => import('@/views/Dashboard.vue'),
         },
         {
-          path: 'devices',
-          name: 'devices',
-          component: () => import('@/views/Devices.vue'),
+          path: 'deviceDetail',
+          name: 'deviceDetail',
+          component: () => import('@/views/DeviceDetail.vue'),
         },
         {
-          path: 'alarm',
-          name: 'alarm',
-          component: () => import('@/views/Alarm.vue'),
+          path: 'deviceList',
+          name: 'deviceList',
+          component: () => import('@/views/DeviceList.vue'),
+        },
+        {
+          path: 'alarmLog',
+          name: 'alarmLog',
+          component: () => import('@/views/AlarmLog.vue'),
+        },
+        {
+          path: 'alarmManagement',
+          name: 'alarmManagement',
+          component: () => import('@/views/AlarmManagement.vue'),
         },
         {
           path: 'quota',

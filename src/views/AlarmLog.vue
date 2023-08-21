@@ -58,7 +58,7 @@ const searchTableData = () => {
     loading.value = true;
     startDate.value = convertDate(startDate.value);
     endDate.value = convertDate(endDate.value);
-    getTableData(name.value.trim(), id.value.trim(), startDate.value, endDate.value);
+    getTableData(name.value, id.value, startDate.value, endDate.value);
 
     loading.value = false;
 };

@@ -12,9 +12,12 @@ const deviceUrl = `${baseUrl}/device`;
 const quotaUrl = `${baseUrl}/quota`;
 const alarmUrl = `${baseUrl}/alarm`;
 
+const setDeviceStatusUrl = `${baseUrl}/device/status`;
+const setDeviceTagsUrl = `${baseUrl}/device/tags`;
 const deviceStatusUrl = `${baseUrl}/report/statusCollect`;
 const changeDeviceStatusUrl = `${baseUrl}/device/status`;
 const alarmLogUrl = `${baseUrl}/alarm/log`;
+const getStatisticsUrl = `${baseUrl}/report/statistic`;
 // const getUserUrl = `${baseUrl}/users`;
 // const postDataUrl = `${baseUrl}/data`;
 
@@ -30,8 +33,8 @@ export {
   corsDomain,
   quotaUrl,
   alarmLogUrl,
-  alarmUrl
-//   getUserUrl,
-//   postDataUrl,
-  // Add more URLs here as needed
+  alarmUrl,
+  setDeviceStatusUrl,
+  setDeviceTagsUrl,
+  getStatisticsUrl
 };

@@ -9,6 +9,15 @@ const toast = useToast();
 const quotaName = ref(null);
 const quotaTable = ref(null);
 const loading = ref(false);
+const visible = ref(false);
+
+const modifyingId = ref(null);
+const modifyingName = ref(null);
+const modifyingUnit = ref(null);
+const modifyingSubject = ref(null);
+const modifyingValueKey = ref(null);
+const modifyingValueType = ref(null);
+const modifyingReferenceValue = ref(null);
 
 const name = ref(null);
 const unit = ref(null);
@@ -120,9 +129,94 @@ const deleteQuota = () => {
 onBeforeMount(() => {
     getTableData(null);
 });
+
+const modify = (data) => {
+    visible.value = true;
+    modifyingId.value = data.id;
+    modifyingName.value = data.name;
+    modifyingUnit.value = data.unit;
+    modifyingSubject.value = data.subject;
+    modifyingValueKey.value = data.valueKey;
+    modifyingValueType.value = data.valueType;
+    modifyingReferenceValue.value = data.referenceValue;
+
+}
+
+const modifyRow = () => {
+    visible.value = false;
+    // Send request to modify the row.
+    let token = localStorage.getItem('token')
+    axios({
+        method: 'put',
+        url: quotaUrl,
+        headers: {
+            Authorization: `${token}`
+        },
+        data: {
+            "id": modifyingId.value,
+            "name": modifyingName.value,
+            "unit": modifyingUnit.value,
+            "subject": modifyingSubject.value,
+            "valueKey": modifyingValueKey.value,
+            "valueType": modifyingValueType.value,
+            "snKey": "sn",
+            "webhook": null,
+            "referenceValue": modifyingReferenceValue.value
+        }
+    })
+        .then((responses) => {
+            for (let i = 0; i < quotaTable.value.length; i++) {
+                if (quotaTable.value[i].id == modifyingId.value) {
+                    quotaTable.value[i].name = modifyingName.value;
+                    quotaTable.value[i].unit = modifyingUnit.value;
+                    quotaTable.value[i].subject = modifyingSubject.value;
+                    quotaTable.value[i].valueKey = modifyingValueKey.value;
+                    quotaTable.value[i].valueType = modifyingValueType.value;
+                    quotaTable.value[i].referenceValue = modifyingReferenceValue.value;                }
+            }
+            toast.add({ severity: 'success', summary: 'Success Message', detail: 'Modify successfully!', life: 3000 });
+        }).catch((error) => {
+            // Handle the error
+            console.log('Error:', error);
+        });
+}
+
 </script>
 
 <template>
+    <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
+        <div class="card p-fluid">
+            <div class="field">
+                <label for="modifyingName">Quota Name</label>
+                <InputText id="modifyingName" type="text" v-model="modifyingName" />
+            </div>
+            <div class="field">
+                <label for="modifyingUnit">Unit</label>
+                <InputText id="modifyingUnit" type="text" v-model="modifyingUnit" />
+            </div>
+            <div class="field">
+                <label for="modifyingSubject">Subject</label>
+                <InputText id="modifyingSubject" type="text" v-model="modifyingSubject" />
+            </div>
+            <div class="field">
+                <label for="modifyingValueKey">Value Key</label>
+                <InputText id="modifyingValueKey" type="text" v-model="modifyingValueKey" />
+            </div>
+            <div class="field">
+                <label for="modifyingValueType">Value Type</label>
+                <InputText id="modifyingValueType" type="text" v-model="modifyingValueType" />
+            </div>
+            <div class="field">
+                <label for="modifyingReferenceValue">referenceValue</label>
+                <InputText id="modifyingReferenceValue" type="text" v-model="modifyingReferenceValue" />
+            </div>
+        </div>
+        <template #footer>
+            <Button label="No" icon="pi pi-times" @click="visible = false" text />
+            <Button label="Yes" icon="pi pi-check" @click="modifyRow" autofocus />
+        </template>
+    </Dialog>
+
     <div class="grid">
         <div class="col-12">
             <div class="card p-fluid">
@@ -190,7 +284,11 @@ onBeforeMount(() => {
                     <template #empty> No records found. </template>
                     <template #loading> Loading devices data... Please wait. </template>
                     <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-
+                    <Column header="Edit" style="min-width: 1rem">
+                        <template #body="{ data }">
+                            <Button label="Modify" class="p-button-outlined p-button-info w-full" @click="modify(data)" />
+                        </template>
+                    </Column>
                     <Column header="Name" style="min-width: 12rem">
                         <template #body="{ data }">
                             {{ data.name }}

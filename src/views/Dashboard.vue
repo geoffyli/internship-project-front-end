@@ -3,7 +3,7 @@ import { onMounted, reactive, ref, watch } from 'vue';
 import ProductService from '@/service/ProductService';
 import { useLayout } from '@/layout/composables/layout';
 import axios from 'axios';
-import { deviceStatusUrl, changeDeviceStatusUrl } from '@/api/APIUrls';
+import { deviceStatusUrl, getStatisticsUrl} from '@/api/APIUrls';
 
 const { isDarkTheme } = useLayout();
 const { layoutConfig } = useLayout();
@@ -40,10 +40,30 @@ const items = ref([
     { label: 'Remove', icon: 'pi pi-fw pi-minus' }
 ]);
 const lineOptions = ref(null);
-const productService = new ProductService();
+const deviceNum = ref(null);
+const alarmDeviceNum = ref(null);
+const getDeviceReport = () =>{
+    let token = localStorage.getItem('token')
+    axios({
+        method: 'get',
+        url: getStatisticsUrl,
+        headers: {
+            Authorization: `${token}`
+        },
+    })
+        .then(response => {
+            // Output the received response content
+            deviceNum.value = response.data['deviceCount'];
+            alarmDeviceNum.value = response.data['alarmCount'];
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+}
 
 onMounted(() => {
-    productService.getProductsSmall().then((data) => (products.value = data));
+    // productService.getProductsSmall().then((data) => (products.value = data));
+    getDeviceReport();
 });
 
 const formatCurrency = (value) => {
@@ -187,7 +207,7 @@ watch(
                 <div class="flex justify-content-between mb-3">
                     <div>
                         <span class="block text-500 font-medium mb-3">Devices</span>
-                        <div class="text-900 font-medium text-xl">152</div>
+                        <div class="text-900 font-medium text-xl">{{ deviceNum }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
                         style="width: 2.5rem; height: 2.5rem">
@@ -202,8 +222,8 @@ watch(
             <div class="card mb-0">
                 <div class="flex justify-content-between mb-3">
                     <div>
-                        <span class="block text-500 font-medium mb-3">Revenue</span>
-                        <div class="text-900 font-medium text-xl">$2.100</div>
+                        <span class="block text-500 font-medium mb-3">Alarm Count</span>
+                        <div class="text-900 font-medium text-xl">{{ alarmDeviceNum }}</div>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                         style="width: 2.5rem; height: 2.5rem">

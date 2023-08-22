@@ -3,7 +3,7 @@
 @port=9093
 @contentType=application/json
 
-@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJlN2UzOGE0YS1iN2RjLTQ5M2MtOWM3Zi01Nzg2YWQ3NmU5ZjYiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkyNDc1NTg1LCJleHAiOjE2OTI0NzczODV9.2ym-0KSKxtvCzOTFnYgGM42nVOdPP9LRJKdRdZmp6bs
+@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5MzJjZTBlYi1lM2RhLTQzNDktYTkzNC1kMzk5NmQ2ZjRhOTUiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkyNjYyNTMzLCJleHAiOjE2OTI2NjQzMzN9.Qj2G5sp0j9HJu4HTqtWCicGcx9BOwxYVjqlz2Ui-U4s
 
 ############################ Tested ############################
 ### Log in
@@ -78,7 +78,7 @@ Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 
 
-#################添加告警#########
+### Add alarm
 POST http://{{hostname}}:{{port}}/alarm HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
@@ -133,10 +133,22 @@ Content-Type: {{contentType}}
     "referenceValue":"1"
 }
 
-### Statistics
+### Device count and alarm count 
 
 GET http://{{hostname}}:{{port}}/report/statistic HTTP/1.1
 Authorization: {{Authorization}}
+
+
+######获取告警趋势#############
+GET http://{{hostname}}:{{port}}/report/trend/2023-08-01 11:00:00/2023-09-22 11:59:59/1 HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
+
+
+###获取告警top10
+GET http://{{hostname}}:{{port}}/report/top10Alarm/2020-09-01 00:00:00/2024-09-30 23:59:59 HTTP/1.1
+Authorization: {{Authorization}}
+Content-Type: {{contentType}}
 
 
 ############################ Untested ############################
@@ -193,11 +205,6 @@ Content-Type: {{contentType}}
 }
 
 
-######获取告警趋势#############
-GET http://{{hostname}}:{{port}}/report/trend/2023-08-01 11:00:00/2023-09-22 11:59:59/1 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
 ######原有告警趋势获取#############
 GET http://172.17.0.231:{{port}}/alarm/trend?start=2020-08-01 00:00:00&end=2020-08-30 00:00:00&quotaId=&type=3 HTTP/1.1
 Authorization: {{Authorization}}
@@ -210,17 +217,6 @@ Content-Type: {{contentType}}
 
 ############报警配置查询############
 GET http://{{hostname}}:{{port}}/alarm?page=1&pageSize=10 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-
-####获取告警top10#########
-GET http://{{hostname}}:{{port}}/report/top10Alarm/2020-09-01 00:00:00/2020-09-30 23:59:59 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-#####通过指标查询设备列表########
-GET http://{{hostname}}:{{port}}/report/devices?quotaId=1&page=1&pageSize=10 HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 

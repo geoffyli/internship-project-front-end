@@ -18,8 +18,8 @@ const deviceStatusUrl = `${baseUrl}/report/statusCollect`;
 const changeDeviceStatusUrl = `${baseUrl}/device/status`;
 const alarmLogUrl = `${baseUrl}/alarm/log`;
 const getStatisticsUrl = `${baseUrl}/report/statistic`;
-// const getUserUrl = `${baseUrl}/users`;
-// const postDataUrl = `${baseUrl}/data`;
+const getAlarmTrendUrl = `${baseUrl}/report/trend`
+const getTop10AlarmUrl = `${baseUrl}/report/top10Alarm`
 
 // Export the URLs for use in other parts of your Vue project
 export {
@@ -36,5 +36,7 @@ export {
   alarmUrl,
   setDeviceStatusUrl,
   setDeviceTagsUrl,
-  getStatisticsUrl
+  getStatisticsUrl,
+  getAlarmTrendUrl,
+  getTop10AlarmUrl
 };

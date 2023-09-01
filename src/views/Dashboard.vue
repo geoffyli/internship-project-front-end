@@ -39,11 +39,8 @@ const alarmTrendData = computed(() => ({
 const top10Alarm = ref(null);
 const last24HourMessages = ref(null);
 const quotaNum = ref(null);
+const pieData = ref(null);
 
-const items = ref([
-  { label: "Add New", icon: "pi pi-fw pi-plus" },
-  { label: "Remove", icon: "pi pi-fw pi-minus" },
-]);
 const lineOptions = ref({
   plugins: {
     legend: {
@@ -183,6 +180,7 @@ onMounted(() => {
   let endTime = new Date();
   getAlarmTrend(formatDate(startTime), formatDate(endTime), 3);
   getTop10Alarm(formatDate(startTime), formatDate(endTime));
+  setChart();
 });
 
 const getTop10Alarm = (startTime, endTime) => {
@@ -274,87 +272,86 @@ const updateTop10Alarm = () => {
   getTop10Alarm(startTime, endTime);
 };
 
-const applyLightTheme = () => {
-  lineOptions.value = {
-    plugins: {
-      legend: {
-        labels: {
-          color: "#495057",
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: "#495057",
-        },
-        grid: {
-          color: "#ebedef",
-        },
-      },
-      y: {
-        ticks: {
-          color: "#495057",
-        },
-        grid: {
-          color: "#ebedef",
-        },
-      },
-    },
-  };
-};
+// const applyLightTheme = () => {
+//   lineOptions.value = {
+//     plugins: {
+//       legend: {
+//         labels: {
+//           color: "#495057",
+//         },
+//       },
+//     },
+//     scales: {
+//       x: {
+//         ticks: {
+//           color: "#495057",
+//         },
+//         grid: {
+//           color: "#ebedef",
+//         },
+//       },
+//       y: {
+//         ticks: {
+//           color: "#495057",
+//         },
+//         grid: {
+//           color: "#ebedef",
+//         },
+//       },
+//     },
+//   };
+// };
 
-const applyDarkTheme = () => {
-  lineOptions.value = {
-    plugins: {
-      legend: {
-        labels: {
-          color: "#ebedef",
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: "#ebedef",
-        },
-        grid: {
-          color: "rgba(160, 167, 181, .3)",
-        },
-      },
-      y: {
-        ticks: {
-          color: "#ebedef",
-        },
-        grid: {
-          color: "rgba(160, 167, 181, .3)",
-        },
-      },
-    },
-  };
-};
+// const applyDarkTheme = () => {
+//   lineOptions.value = {
+//     plugins: {
+//       legend: {
+//         labels: {
+//           color: "#ebedef",
+//         },
+//       },
+//     },
+//     scales: {
+//       x: {
+//         ticks: {
+//           color: "#ebedef",
+//         },
+//         grid: {
+//           color: "rgba(160, 167, 181, .3)",
+//         },
+//       },
+//       y: {
+//         ticks: {
+//           color: "#ebedef",
+//         },
+//         grid: {
+//           color: "rgba(160, 167, 181, .3)",
+//         },
+//       },
+//     },
+//   };
+// };
 
-watch(
-  isDarkTheme,
-  (val) => {
-    if (val) {
-      applyDarkTheme();
-    } else {
-      applyLightTheme();
-    }
-  },
-  { immediate: true }
-);
+// watch(
+//   isDarkTheme,
+//   (val) => {
+//     if (val) {
+//       applyDarkTheme();
+//     } else {
+//       applyLightTheme();
+//     }
+//   },
+//   { immediate: true }
+// );
 
 // Mine
-const pieData = ref(null);
 
-const setColorOptions = () => {
-  documentStyle = getComputedStyle(document.documentElement);
-  textColor = documentStyle.getPropertyValue("--text-color");
-  textColorSecondary = documentStyle.getPropertyValue("--text-color-secondary");
-  surfaceBorder = documentStyle.getPropertyValue("--surface-border");
-};
+// const setColorOptions = () => {
+//   documentStyle = getComputedStyle(document.documentElement);
+//   textColor = documentStyle.getPropertyValue("--text-color");
+//   textColorSecondary = documentStyle.getPropertyValue("--text-color-secondary");
+//   surfaceBorder = documentStyle.getPropertyValue("--surface-border");
+// };
 
 const setChart = () => {
   let deviceStatus = null;
@@ -399,14 +396,14 @@ const setChart = () => {
     });
 };
 
-watch(
-  layoutConfig.theme,
-  () => {
-    setColorOptions();
-    setChart();
-  },
-  { immediate: true }
-);
+// watch(
+//   layoutConfig.theme,
+//   () => {
+//     setColorOptions();
+//     setChart();
+//   },
+//   { immediate: true }
+// );
 </script>
 
 <template>
@@ -472,7 +469,7 @@ watch(
           </div>
         </div>
         <span class="text-green-500 font-medium"
-          >Number of msgs received in last 24h</span
+          >Msgs received in last 24h</span
         >
       </div>
     </div>

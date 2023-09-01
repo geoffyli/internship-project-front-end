@@ -1,7 +1,6 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import { ref } from 'vue';
-import AppConfig from '@/layout/AppConfig.vue';
 import Axios from 'axios'; // Import Axios
 import { signupUrl } from '@/api/APIUrls';
 import router from '@/router';
@@ -170,7 +169,6 @@ async function handleSignup() {
             </div>
         </div>
     </div>
-    <AppConfig simple />
 </template>
 
 <style scoped>

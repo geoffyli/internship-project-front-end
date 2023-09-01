@@ -1,7 +1,6 @@
 <script setup>
 import { useLayout } from "@/layout/composables/layout";
 import { ref, computed } from "vue";
-import AppConfig from "@/layout/AppConfig.vue";
 import Axios from "axios"; // Import Axios
 import { loginUrl } from "@/api/APIUrls";
 import router from "@/router";
@@ -187,7 +186,6 @@ function updatePasswordValidation() {
       </div>
     </div>
   </div>
-  <AppConfig simple />
 </template>
 
 <style scoped>

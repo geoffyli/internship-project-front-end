@@ -1,9 +1,9 @@
 <script setup>
-import { computed, watch, ref } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 import AppTopbar from './AppTopbar.vue';
 import AppFooter from './AppFooter.vue';
 import AppSidebar from './AppSidebar.vue';
-import AppConfig from './AppConfig.vue';
+import {setThemeAndScale} from '@/utils/themeUtil';
 import { useLayout } from '@/layout/composables/layout';
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
@@ -55,6 +55,10 @@ const isOutsideClicked = (event) => {
 
     return !(sidebarEl.isSameNode(event.target) || sidebarEl.contains(event.target) || topbarEl.isSameNode(event.target) || topbarEl.contains(event.target));
 };
+
+onMounted(() => {
+    setThemeAndScale();
+});
 </script>
 
 <template>
@@ -69,7 +73,6 @@ const isOutsideClicked = (event) => {
             </div>
             <app-footer></app-footer>
         </div>
-        <app-config></app-config>
         <div class="layout-mask"></div>
     </div>
 </template>

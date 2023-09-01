@@ -49,7 +49,7 @@ const model = ref([
         label: 'Profile & Settings',
         items: [
             { label: 'Profile', icon: 'pi pi-fw pi-user', to: '/utilities/icons' },
-            { label: 'Settings', icon: 'pi pi-fw pi-cog', to: '/user/logout' }
+            { label: 'Settings', icon: 'pi pi-fw pi-cog', to: '/main/settings' }
         ]
     },
     {

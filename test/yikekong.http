@@ -240,9 +240,3 @@ Content-Type: {{contentType}}
 GET http://{{hostname}}:{{port}}/device/deviceInfo/000001 HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
-
-When I was a freshman, I had learned almost nothing about programming languages, and they seemed daunting at first. Despite the anxiety, I plunged in, trying to get some insights and some points that connect my experience before. 
-
-I noticed that there were some specific design patterns or ideas behind those artificial langauges, like encapsulation. This introduction to the structured coding profoundly altered my perspective. The concept of encapsulation, which promotes hiding complex useless details from other's view, is a great example. I began to see its analogue in my daily life: organizing my tasks and prioritizing them effectively. 
-
-This analogy, not only facilitated my understanding of programming but also improve the efficiency of everyday activities. All in all, diving into the alien world of coding gave me a brand new perspective.

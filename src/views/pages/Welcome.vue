@@ -1,5 +1,10 @@
 <script setup>
-import AppConfig from "@/layout/AppConfig.vue";
+import { onMounted } from 'vue';
+import {setThemeAndScale} from '@/utils/themeUtil';
+
+onMounted(() => {
+    setThemeAndScale();
+});
 </script>
 
 <template>
@@ -53,7 +58,7 @@ import AppConfig from "@/layout/AppConfig.vue";
             <Button
               label="Get Started"
               severity="info"
-              class="p-button-rounded text-xl border-none mt-5 bg-500 font-normal text-white line-height-3 px-3"
+              class="p-button-rounded text-xl border-none mt-3 mb-5 bg-500 font-normal text-white line-height-3 px-3"
               style="
                 width: 200px;
                 background: linear-gradient(
@@ -425,5 +430,4 @@ import AppConfig from "@/layout/AppConfig.vue";
       </div>
     </div>
   </div>
-  <AppConfig simple />
 </template>

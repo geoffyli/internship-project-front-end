@@ -3,8 +3,7 @@
 @port=9093
 @contentType=application/json
 
-@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5MzJjZTBlYi1lM2RhLTQzNDktYTkzNC1kMzk5NmQ2ZjRhOTUiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkyNjYyNTMzLCJleHAiOjE2OTI2NjQzMzN9.Qj2G5sp0j9HJu4HTqtWCicGcx9BOwxYVjqlz2Ui-U4s
-
+@Authorization=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzNjk5ZGMyMC00ZWY2LTQ2OTYtOGFiMS02MDFhMGQ0ZGU4NzQiLCJzdWIiOiIxIiwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNjkzMjYwOTcxLCJleHAiOjE2OTMyNjI3NzF9.pYUGbSN_PmVA_2FeUfvqM-uJ3DY8lYCHuf5cj-cMR5g
 ############################ Tested ############################
 ### Log in
 POST  http://{{hostname}}:{{port}}/login HTTP/1.1
@@ -139,16 +138,25 @@ GET http://{{hostname}}:{{port}}/report/statistic HTTP/1.1
 Authorization: {{Authorization}}
 
 
-######获取告警趋势#############
+### Get alarm trend
 GET http://{{hostname}}:{{port}}/report/trend/2023-08-01 11:00:00/2023-09-22 11:59:59/1 HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 
 
-###获取告警top10
+### Get alarm top 10
 GET http://{{hostname}}:{{port}}/report/top10Alarm/2020-09-01 00:00:00/2024-09-30 23:59:59 HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
+
+### Get the number of messages in last 24 hours
+GET http://{{hostname}}:{{port}}/report/24HourMessages HTTP/1.1
+Authorization: {{Authorization}}
+
+### Get quota number
+GET http://{{hostname}}:{{port}}/report/quotaNumber HTTP/1.1
+Authorization: {{Authorization}}
+
 
 
 ############################ Untested ############################
@@ -227,36 +235,14 @@ GET http://{{hostname}}:{{port}}/report/monitor
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 
-############设置gps指标##########
-PUT http://{{hostname}}:{{port}}/gps HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
-{
-    "id":1290822720395812900,
-    "subject":"geo12",
-    "snKey":"deviceSn",
-    "singleField":false,
-    "valueKey":null,
-    "separation":null,
-    "latitude":"lat",
-    "longitude":"lon"
-}
-
-#######获取gps指标######
-GET http://{{hostname}}:{{port}}/gps HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
-
 ############获取设备详情#########
 
-GET http://{{hostname}}:{{port}}/device/deviceInfo/123456 HTTP/1.1
+GET http://{{hostname}}:{{port}}/device/deviceInfo/000001 HTTP/1.1
 Authorization: {{Authorization}}
 Content-Type: {{contentType}}
 
+When I was a freshman, I had learned almost nothing about programming languages, and they seemed daunting at first. Despite the anxiety, I plunged in, trying to get some insights and some points that connect my experience before. 
 
-#######根据经纬度获取设备信息############
+I noticed that there were some specific design patterns or ideas behind those artificial langauges, like encapsulation. This introduction to the structured coding profoundly altered my perspective. The concept of encapsulation, which promotes hiding complex useless details from other's view, is a great example. I began to see its analogue in my daily life: organizing my tasks and prioritizing them effectively. 
 
-GET http://{{hostname}}:{{port}}/gps/deviceList/40.722/-73.989/10 HTTP/1.1
-Authorization: {{Authorization}}
-Content-Type: {{contentType}}
+This analogy, not only facilitated my understanding of programming but also improve the efficiency of everyday activities. All in all, diving into the alien world of coding gave me a brand new perspective.

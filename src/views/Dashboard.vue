@@ -7,6 +7,8 @@ import {
   getStatisticsUrl,
   getAlarmTrendUrl,
   getTop10AlarmUrl,
+  getLast24HourMessagesUrl,
+  getQuotaNumUrl,
 } from "@/api/APIUrls";
 
 const { isDarkTheme } = useLayout();
@@ -35,6 +37,8 @@ const alarmTrendData = computed(() => ({
 }));
 
 const top10Alarm = ref(null);
+const last24HourMessages = ref(null);
+const quotaNum = ref(null);
 
 const items = ref([
   { label: "Add New", icon: "pi pi-fw pi-plus" },
@@ -134,9 +138,45 @@ const getDeviceReport = () => {
     });
 };
 
+const getLast24HourMessages = () => {
+  let token = localStorage.getItem("token");
+  axios({
+    method: "get",
+    url: getLast24HourMessagesUrl,
+    headers: {
+      Authorization: `${token}`,
+    },
+  })
+    .then((response) => {
+      last24HourMessages.value = response.data;
+    })
+    .catch((error) => {
+      console.log("Error:", error);
+    });
+};
+
+const getQuotaNumber = () => {
+  let token = localStorage.getItem("token");
+  axios({
+    method: "get",
+    url: getQuotaNumUrl,
+    headers: {
+      Authorization: `${token}`,
+    },
+  })
+    .then((response) => {
+      // Output the received response content
+      quotaNum.value = response.data;
+    })
+    .catch((error) => {
+      console.log("Error:", error);
+    });
+};
+
 onMounted(() => {
-  // productService.getProductsSmall().then((data) => (products.value = data));
   getDeviceReport();
+  getLast24HourMessages();
+  getQuotaNumber();
   // Get the time of a week ago with the format yyyy-mm-dd hh:mm:ss
   let date = new Date();
   let startTime = new Date(date.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -171,7 +211,7 @@ const getTop10Alarm = (startTime, endTime) => {
           {
             backgroundColor: documentStyle.getPropertyValue("--primary-500"),
             borderColor: documentStyle.getPropertyValue("--primary-500"),
-            data: data
+            data: data,
           },
         ],
       };
@@ -383,37 +423,46 @@ watch(
             class="flex align-items-center justify-content-center bg-blue-100 border-round"
             style="width: 2.5rem; height: 2.5rem"
           >
-            <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+            <i class="pi pi-wifi text-blue-500 text-xl"></i>
           </div>
         </div>
-        <!-- <span class="text-green-500 font-medium">24 new </span>
-                <span class="text-500">since last visit</span> -->
+        <span class="text-green-500 font-medium"
+          >Number of devices in total</span
+        >
       </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
       <div class="card mb-0">
         <div class="flex justify-content-between mb-3">
           <div>
-            <span class="block text-500 font-medium mb-3">Alarm Count</span>
+            <span class="block text-500 font-medium mb-3"
+              >Alarming Devices</span
+            >
             <div class="text-900 font-medium text-xl">{{ alarmDeviceNum }}</div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-orange-100 border-round"
             style="width: 2.5rem; height: 2.5rem"
           >
-            <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+            <i class="pi pi-info-circle text-orange-500 text-xl"></i>
           </div>
         </div>
-        <span class="text-green-500 font-medium">%52+ </span>
-        <span class="text-500">since last week</span>
+        <span class="text-green-500 font-medium"
+          >Number of alarming devices</span
+        >
+        <!-- <span class="text-500">since last week</span> -->
       </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
       <div class="card mb-0">
         <div class="flex justify-content-between mb-3">
           <div>
-            <span class="block text-500 font-medium mb-3">Customers</span>
-            <div class="text-900 font-medium text-xl">28441</div>
+            <span class="block text-500 font-medium mb-3"
+              >Last 24h Messages</span
+            >
+            <div class="text-900 font-medium text-xl">
+              {{ last24HourMessages }}
+            </div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-cyan-100 border-round"
@@ -422,26 +471,28 @@ watch(
             <i class="pi pi-inbox text-cyan-500 text-xl"></i>
           </div>
         </div>
-        <span class="text-green-500 font-medium">520 </span>
-        <span class="text-500">newly registered</span>
+        <span class="text-green-500 font-medium"
+          >Number of msgs received in last 24h</span
+        >
       </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
       <div class="card mb-0">
         <div class="flex justify-content-between mb-3">
           <div>
-            <span class="block text-500 font-medium mb-3">Comments</span>
-            <div class="text-900 font-medium text-xl">152 Unread</div>
+            <span class="block text-500 font-medium mb-3">Quotas</span>
+            <div class="text-900 font-medium text-xl">{{ quotaNum }}</div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-purple-100 border-round"
             style="width: 2.5rem; height: 2.5rem"
           >
-            <i class="pi pi-comment text-purple-500 text-xl"></i>
+            <i class="pi pi-list text-purple-500 text-xl"></i>
           </div>
         </div>
-        <span class="text-green-500 font-medium">85 </span>
-        <span class="text-500">responded</span>
+        <span class="text-green-500 font-medium"
+          >Number of quotas set in Sensonet</span
+        >
       </div>
     </div>
 
@@ -449,7 +500,7 @@ watch(
     <div class="col-12 xl:col-6">
       <!-- Pie chart -->
       <div class="card flex flex-column align-items-center">
-        <h5 class="text-left w-full">Device Status</h5>
+        <h5 class="text-left w-full">Device Status Statistics</h5>
         <Chart type="pie" :data="pieData"></Chart>
       </div>
       <div class="card">
@@ -472,138 +523,12 @@ watch(
           />
         </div>
         <div class="grid mt-2 ml-auto">
-          <Button class="w-full mr-2" label="Submit" @click="updateTop10Alarm" />
+          <Button
+            class="w-full mr-2"
+            label="Submit"
+            @click="updateTop10Alarm"
+          />
         </div>
-    </div>
-
-      <div class="card">
-        <div class="flex justify-content-between align-items-center mb-5">
-          <h5>Best Selling Products</h5>
-          <div>
-            <Button
-              icon="pi pi-ellipsis-v"
-              class="p-button-text p-button-plain p-button-rounded"
-              @click="$refs.menu2.toggle($event)"
-            ></Button>
-            <Menu ref="menu2" :popup="true" :model="items"></Menu>
-          </div>
-        </div>
-        <ul class="list-none p-0 m-0">
-          <li
-            class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
-          >
-            <div>
-              <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
-                >Space T-Shirt</span
-              >
-              <div class="mt-1 text-600">Clothing</div>
-            </div>
-            <div class="mt-2 md:mt-0 flex align-items-center">
-              <div
-                class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                style="height: 8px"
-              >
-                <div class="bg-orange-500 h-full" style="width: 50%"></div>
-              </div>
-              <span class="text-orange-500 ml-3 font-medium">%50</span>
-            </div>
-          </li>
-          <li
-            class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
-          >
-            <div>
-              <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
-                >Portal Sticker</span
-              >
-              <div class="mt-1 text-600">Accessories</div>
-            </div>
-            <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-              <div
-                class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                style="height: 8px"
-              >
-                <div class="bg-cyan-500 h-full" style="width: 16%"></div>
-              </div>
-              <span class="text-cyan-500 ml-3 font-medium">%16</span>
-            </div>
-          </li>
-          <li
-            class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
-          >
-            <div>
-              <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
-                >Supernova Sticker</span
-              >
-              <div class="mt-1 text-600">Accessories</div>
-            </div>
-            <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-              <div
-                class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                style="height: 8px"
-              >
-                <div class="bg-pink-500 h-full" style="width: 67%"></div>
-              </div>
-              <span class="text-pink-500 ml-3 font-medium">%67</span>
-            </div>
-          </li>
-          <li
-            class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
-          >
-            <div>
-              <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
-                >Wonders Notebook</span
-              >
-              <div class="mt-1 text-600">Office</div>
-            </div>
-            <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-              <div
-                class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                style="height: 8px"
-              >
-                <div class="bg-green-500 h-full" style="width: 35%"></div>
-              </div>
-              <span class="text-green-500 ml-3 font-medium">%35</span>
-            </div>
-          </li>
-          <li
-            class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
-          >
-            <div>
-              <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
-                >Mat Black Case</span
-              >
-              <div class="mt-1 text-600">Accessories</div>
-            </div>
-            <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-              <div
-                class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                style="height: 8px"
-              >
-                <div class="bg-purple-500 h-full" style="width: 75%"></div>
-              </div>
-              <span class="text-purple-500 ml-3 font-medium">%75</span>
-            </div>
-          </li>
-          <li
-            class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
-          >
-            <div>
-              <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
-                >Robots T-Shirt</span
-              >
-              <div class="mt-1 text-600">Clothing</div>
-            </div>
-            <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-              <div
-                class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                style="height: 8px"
-              >
-                <div class="bg-teal-500 h-full" style="width: 40%"></div>
-              </div>
-              <span class="text-teal-500 ml-3 font-medium">%40</span>
-            </div>
-          </li>
-        </ul>
       </div>
     </div>
 
@@ -642,18 +567,10 @@ watch(
       </div>
       <div class="card">
         <div class="flex align-items-center justify-content-between mb-4">
-          <h5>Notifications</h5>
-          <div>
-            <Button
-              icon="pi pi-ellipsis-v"
-              class="p-button-text p-button-plain p-button-rounded"
-              @click="$refs.menu1.toggle($event)"
-            ></Button>
-            <Menu ref="menu1" :popup="true" :model="items"></Menu>
-          </div>
+          <h5>Developor's Announcement & Log</h5>
         </div>
 
-        <span class="block text-600 font-medium mb-3">TODAY</span>
+        <span class="block text-600 font-medium mb-3">Aug. 24 2023</span>
         <ul class="p-0 mx-0 mt-0 mb-4 list-none">
           <li
             class="flex align-items-center py-2 border-bottom-1 surface-border"
@@ -661,14 +578,10 @@ watch(
             <div
               class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0"
             >
-              <i class="pi pi-dollar text-xl text-blue-500"></i>
+              <i class="pi pi-check text-xl text-blue-500"></i>
             </div>
-            <span class="text-900 line-height-3"
-              >Richard Jones
-              <span class="text-700"
-                >has purchased a blue t-shirt for
-                <span class="text-blue-500">79$</span></span
-              >
+            <span class="text-700 line-height-3">
+              Fix responsive layout bug.
             </span>
           </li>
           <li class="flex align-items-center py-2">
@@ -678,14 +591,12 @@ watch(
               <i class="pi pi-download text-xl text-orange-500"></i>
             </div>
             <span class="text-700 line-height-3"
-              >Your request for withdrawal of
-              <span class="text-blue-500 font-medium">2500$</span> has been
-              initiated.</span
+              >Update data storage performance.</span
             >
           </li>
         </ul>
 
-        <span class="block text-600 font-medium mb-3">YESTERDAY</span>
+        <span class="block text-600 font-medium mb-3">Aug. 04 2023</span>
         <ul class="p-0 m-0 list-none">
           <li
             class="flex align-items-center py-2 border-bottom-1 surface-border"
@@ -693,15 +604,9 @@ watch(
             <div
               class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0"
             >
-              <i class="pi pi-dollar text-xl text-blue-500"></i>
+              <i class="pi pi-check text-xl text-blue-500"></i>
             </div>
-            <span class="text-900 line-height-3"
-              >Keyser Wick
-              <span class="text-700"
-                >has purchased a black jacket for
-                <span class="text-blue-500">59$</span></span
-              >
-            </span>
+            <span class="text-700 line-height-3">Debug CORS policy.</span>
           </li>
           <li
             class="flex align-items-center py-2 border-bottom-1 surface-border"
@@ -709,13 +614,10 @@ watch(
             <div
               class="w-3rem h-3rem flex align-items-center justify-content-center bg-pink-100 border-circle mr-3 flex-shrink-0"
             >
-              <i class="pi pi-question text-xl text-pink-500"></i>
+              <i class="pi pi-chart-line text-xl text-pink-500"></i>
             </div>
-            <span class="text-900 line-height-3"
-              >Jane Davis
-              <span class="text-700"
-                >has posted a new questions about your product.</span
-              >
+            <span class="text-700 line-height-3"
+              >Complete front-end design.
             </span>
           </li>
         </ul>

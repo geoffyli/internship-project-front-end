@@ -19,11 +19,11 @@ const model = ref([
                         icon: 'pi pi-fw pi-list',
                         to: '/main/deviceList'
                     },
-                    {
-                        label: 'Device Detail',
-                        icon: 'pi pi-fw pi-bars',
-                        to: '/main/deviceDetail'
-                    }
+                    // {
+                    //     label: 'Device Detail',
+                    //     icon: 'pi pi-fw pi-bars',
+                    //     to: '/main/deviceDetail'
+                    // }
                 ]
             },
             { label: 'Quota Management', icon: 'pi pi-fw pi-list', to: '/main/quota' },
@@ -55,7 +55,7 @@ const model = ref([
     {
         label: 'Instructions & About',
         items: [
-            { label: 'Instructions', icon: 'pi pi-fw pi-book', to: '/blocks', badge: 'NEW' },
+            { label: 'Documentation', icon: 'pi pi-fw pi-book', to: '/main/documentation', badge: 'NEW' },
             { label: 'About', icon: 'pi pi-fw pi-at', url: 'https://github.com/geoffyli', target: '_blank' }
         ]
     },

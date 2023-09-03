@@ -112,12 +112,12 @@ onBeforeMount(() => {
 
                     <template #empty> No records found. </template>
                     <template #loading> Loading alarm data... Please wait. </template>
-                    <Column header="Device ID" style="min-width: 12rem">
+                    <Column header="Device ID" style="min-width: 8rem">
                         <template #body="{ data }">
                             {{ data.deviceId }}
                         </template>
                     </Column>
-                    <Column header="Alarm Time" style="min-width: 14rem">
+                    <Column header="Alarm Time" style="min-width: 12rem">
                         <template #body="{ data }">
                             {{ data.time }}
                         </template>
@@ -127,17 +127,17 @@ onBeforeMount(() => {
                             {{ data.alarmName }}
                         </template>
                     </Column>
-                    <Column header="Alarm Level" style="min-width: 14rem">
+                    <Column header="Alarm Level" style="min-width: 8rem">
                         <template #body="{ data }">
-                            {{ data.level == 1 ? 'Warning' : 'Critical' }}
+                            {{ data.level == 1 ? 'Minor' : 'Severe' }}
                         </template>
                     </Column>
-                    <Column header="Alarm Quota" style="min-width: 14rem">
+                    <Column header="Alarm Quota" style="min-width: 8rem">
                         <template #body="{ data }">
                             {{ data.quotaName }}
                         </template>
                     </Column>
-                    <Column header="Alarm Quota Val" style="min-width: 14rem">
+                    <Column header="Alarm Value" style="min-width: 8rem">
                         <template #body="{ data }">
                             {{ data.stringValue }}
                         </template>

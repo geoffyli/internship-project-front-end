@@ -1,12 +1,16 @@
 <script setup>
-import { useLayout } from '@/layout/composables/layout';
 import { ref } from 'vue';
 import Axios from 'axios'; // Import Axios
 import { signupUrl } from '@/api/APIUrls';
 import router from '@/router';
+import {setThemeAndScale} from '@/utils/themeUtil';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    setThemeAndScale();
+});
 
 
-const { layoutConfig } = useLayout();
 const username = ref('');
 const password1 = ref('');
 const password2 = ref('');

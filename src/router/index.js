@@ -50,9 +50,9 @@ const router = createRouter({
         component: () => import('@/views/Quota.vue'),
         },
         {
-          path: 'instruction',
-          name: 'instruction',
-        component: () => import('@/views/Instruction.vue'),
+          path: 'documentation',
+          name: 'documentation',
+        component: () => import('@/views/Documentation.vue'),
         },
         {
           path: 'settings',

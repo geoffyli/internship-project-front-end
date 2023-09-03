@@ -1,4 +1,10 @@
 <script setup>
+import {setThemeAndScale} from '@/utils/themeUtil';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    setThemeAndScale();
+});
 </script>
 
 <template>

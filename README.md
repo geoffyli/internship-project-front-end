@@ -1,36 +1,30 @@
-# internship-project-front-end
+# Sensonet Frontend
 
-# Tutorial
-This template should help get you started developing with Vue 3 in Vite.
+Sensonet Frontend is the user interface component of the Sensonet ecosystem, designed to provide a seamless and intuitive way for users to interact with sensor data. Built using modern web technologies, this frontend application aims to deliver real-time insights, analytics, and control over IoT devices within the SensoNet network.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- Real-time display of sensor data
+- Interactive dashboards for data analytics
+- Device management capabilities
+- User authentication and authorization
+- Responsive design for desktop and mobile devices
 
-## Customize configuration
+## Getting Started
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Follow these instructions to get the SensoNet Frontend running on your local environment for development and testing purposes.
 
-## Project Setup
+### Prerequisites
 
-```sh
-npm install
-```
+- Node.js (v14 or later)
+- A modern web browser
 
-### Compile and Hot-Reload for Development
+## Usage
+The SensoNet Frontend is designed to be intuitive and easy to use. Here are some common tasks you can perform:
 
-```sh
-npm run dev
-```
+- Viewing Sensor Data: Navigate to the Dashboard to see real-time and historical data from your sensors.
+- Managing Devices: Use the Devices page to add, remove, or configure IoT devices.
+- User Settings: Access the Settings page to update your user preferences and account information.
 
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
+## Contact
+For questions, suggestions, or issues, please open an issue on the GitHub repository or contact the project maintainer directly at <geoff.yulong.li@gmail.com>.
